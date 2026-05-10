@@ -1,4 +1,4 @@
-import { RequestError } from "../Auth/useRegister.d"
+import { RequestError } from "../Auth/useRegisterTypes"
 
 export interface LoginState {
     logindata: Logindata

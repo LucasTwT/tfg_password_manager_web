@@ -1,4 +1,4 @@
-import type { Vault } from "@/core/reducers/Home/useHome.d"
+import type { Vault } from "@/core/reducers/Home/useHomeTypes"
 import { useAppStore } from "@/core/store/useAppStore"
 import { API_URL } from "../constants"
 import { apiFetch } from "../httpClient"

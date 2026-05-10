@@ -1,5 +1,5 @@
-import type { PasswordGeneratorOptions } from "@/core/reducers/Create/useGenerateKey.d"
-import { PasswordType } from "@/core/reducers/Create/useGenerateKey.d"
+import type { PasswordGeneratorOptions } from "@/core/reducers/Create/useGenerateKeyTypes"
+import { PasswordType } from "@/core/reducers/Create/useGenerateKeyTypes"
 import { PASSWORD_CONSTANTS, WORD_LIST } from "../constants/passwords"
 
 export function generatePassword(keyOptions: PasswordGeneratorOptions): string {

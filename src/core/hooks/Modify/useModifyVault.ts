@@ -1,5 +1,5 @@
-import type { UpdatePayload } from "@/core/reducers/Create/useCreateVault.d"
-import type { Vault } from "@/core/reducers/Home/useHome.d"
+import type { UpdatePayload } from "@/core/reducers/Create/useCreateVaultTypes"
+import type { Vault } from "@/core/reducers/Home/useHomeTypes"
 import { requestModifyVault } from "@/core/services/api/endpoints/vaults"
 import { useAppStore } from "@/core/store/useAppStore"
 import { validateModifyVaultName } from "@/core/utils/validations/Modify"

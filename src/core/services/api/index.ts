@@ -3,7 +3,7 @@ export { API_URL } from "./constants"
 
 // Auth endpoints
 export {
-    loginStart as authLoginStart,
+    authLoginStart,
     finishLogin,
     registerUser,
     requestSalt,

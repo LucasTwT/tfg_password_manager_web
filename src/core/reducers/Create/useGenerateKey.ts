@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import { Action, GenerateKeyState, PasswordGeneratorOptions, PasswordType, UpdatePayload } from "./useGenerateKey.d";
+import type { Action, GenerateKeyState, PasswordGeneratorOptions, PasswordType, UpdatePayload } from "./useGenerateKeyTypes";
 import { generatePassword } from "@/core/services/crypto/functions/generatePassword";
 
 const initialState: GenerateKeyState = {

@@ -1,4 +1,4 @@
-import type { Vault } from "@/core/reducers/Home/useHome.d"
+import type { Vault } from "@/core/reducers/Home/useHomeTypes"
 import { requestCreateVault } from "@/core/services/api/endpoints/vaults"
 import { getVaults } from "@/core/services/api/endpoints/vaults"
 import { useAppStore } from "@/core/store/useAppStore"

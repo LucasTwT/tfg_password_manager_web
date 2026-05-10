@@ -4,11 +4,9 @@ export interface GlobalState {
     // User settings
     settings: UserSettings
     updateSettings: (newSettings: UserSettings) => void
-    // Tokens
+    // Tokens (refresh_token lives in HttpOnly cookie)
     access_token: string
-    refresh_token: string
     updateAccessToken: (newAccessToken: string) => void
-    updateRefreshToken: (newRefreshToken: string) => void
     // crypto
     cryptoContext?: CryptoContext
     updateCryptoContext: (newCryptoCtx: CryptoContext) => void

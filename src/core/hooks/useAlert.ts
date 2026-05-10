@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import type { RequestError } from "@/core/reducers/Auth/useRegister.d"
+import type { RequestError } from "@/core/reducers/Auth/useRegisterTypes"
 
 interface AlertButton {
     text: string

@@ -1,5 +1,5 @@
 import { useReducer } from "react";
-import { HomeState, HomeAction, FilterOption, Vault, Option} from "./useHome.d";
+import type { HomeState, HomeAction, FilterOption, Vault, Option} from "./useHomeTypes";
 
 export const initialState: HomeState = {
     filterOptions: [],

@@ -1,5 +1,5 @@
-import type { UpdatePayload } from "@/core/reducers/Create/useCreateLogin.d"
-import type { GenerateKeyState } from "@/core/reducers/Create/useGenerateKey.d"
+import type { UpdatePayload } from "@/core/reducers/Create/useCreateLoginTypes"
+import type { GenerateKeyState } from "@/core/reducers/Create/useGenerateKeyTypes"
 import { useEffect } from "react"
 
 export function useGenerateKey({

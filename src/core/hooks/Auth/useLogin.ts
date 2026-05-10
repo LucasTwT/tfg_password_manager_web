@@ -1,6 +1,6 @@
 import { useEffect } from "react"
-import type { LoginState } from "@/core/reducers/Auth/useLogin.d"
-import type { RequestError } from "@/core/reducers/Auth/useRegister.d"
+import type { LoginState } from "@/core/reducers/Auth/useLoginTypes"
+import type { RequestError } from "@/core/reducers/Auth/useRegisterTypes"
 import { regenerateKeys, signChallenge } from "@/core/services/crypto"
 import { authLoginStart, finishLogin } from "@/core/services/api/endpoints/auth"
 import { useGlobalStore } from "@/core/store/useGlobalStore"
@@ -12,7 +12,7 @@ export const useLoginUser = (
     setPressed: React.Dispatch<React.SetStateAction<boolean>>,
     setRequestError: (payload: RequestError) => void
 ) => {
-    const { updateAccessToken, updateRefreshToken } = useGlobalStore()
+    const { updateAccessToken } = useGlobalStore()
 
     useEffect(() => {
         const { identifier, password } = state.userdata
@@ -28,10 +28,9 @@ export const useLoginUser = (
                         const result = await finishLogin(identifier, signature)
                         if (result.status) {
                             updateAccessToken(result.response["access_token"])
-                            updateRefreshToken(result.response["refresh_token"])
+                            // Refresh token is in HttpOnly cookie — only store salt
                             await storage.set("sensitive_data", {
                                 salt: response["salt"],
-                                refresh_token: result.response["refresh_token"],
                             })
                             window.location.href = "/home"
                         } else {

@@ -1,6 +1,7 @@
 // Auth hooks
 export { useLoginUser } from "./Auth/useLogin"
 export { useCreateUser } from "./Auth/useCreateUser"
+export { useAutoLogin } from "./Auth/useAutoLogin"
 export { useMasterPassword } from "./Auth/useMasterPassword"
 export { useKeys } from "./Auth/useKeys"
 export { useValidation } from "./Auth/useValidations"

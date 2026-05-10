@@ -1,4 +1,4 @@
-import type { ErrorLogindata, Logindata } from "@/core/reducers/Create/useCreateLogin.d"
+import type { ErrorLogindata, Logindata } from "@/core/reducers/Create/useCreateLoginTypes"
 import { loginValidators } from "@/core/utils/validations/Create"
 
 export function validateLoginForm(

@@ -6,7 +6,7 @@ import sodium from "libsodium-wrappers"
 
 // --- Public endpoints (no JWT required) ---
 
-export async function loginStart(identifier: string) {
+export async function authLoginStart(identifier: string) {
     try {
         const content = JSON.stringify({ identifier })
         const response = await fetch(`${API_URL}/auth/login/start`, {
@@ -14,6 +14,7 @@ export async function loginStart(identifier: string) {
             headers: {
                 "Content-Type": "application/json",
             },
+            credentials: "include",
             body: content,
         })
         if (!response.ok) {
@@ -37,6 +38,7 @@ export async function finishLogin(identifier: string, signature: string) {
             headers: {
                 "Content-Type": "application/json",
             },
+            credentials: "include",
             body: content,
         })
         if (!response.ok) {
@@ -79,6 +81,7 @@ export async function registerUser(
             headers: {
                 "Content-Type": "application/json",
             },
+            credentials: "include",
             body: content,
         })
         if (!response.ok) {
@@ -99,6 +102,7 @@ export async function requestSalt(identifier: string) {
             headers: {
                 "Content-Type": "application/json",
             },
+            credentials: "include",
             body: content,
         })
         if (!response.ok) {
@@ -106,6 +110,21 @@ export async function requestSalt(identifier: string) {
             return { response: errorData, status: false }
         }
         return { response: await response.json(), status: true }
+    } catch (error) {
+        return { response: error, status: false }
+    }
+}
+
+export async function logout() {
+    try {
+        const response = await fetch(`${API_URL}/auth/logout`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+        })
+        return { response: await response.json(), status: response.ok }
     } catch (error) {
         return { response: error, status: false }
     }

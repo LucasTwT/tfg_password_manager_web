@@ -1,5 +1,5 @@
 import type { ReactNode } from "react"
-import type { ButtonAction, ContentHandleData, TopButtonProps } from "./useBottomSheetTypes.d"
+import type { ButtonAction, ContentHandleData, TopButtonProps } from "./useBottomSheetTypes"
 
 export interface OverlaySheetState {
     isOpen: boolean

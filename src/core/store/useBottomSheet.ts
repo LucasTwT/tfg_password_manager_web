@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import type { BottomSheetState, ButtonAction, TopButton, TopButtonProps } from "./useBottomSheetTypes.d"
+import type { BottomSheetState, ButtonAction, TopButton, TopButtonProps } from "./useBottomSheetTypes"
 
 export const useBottomSheetStore = create<BottomSheetState>((set, get) => ({
     isOpen: false,

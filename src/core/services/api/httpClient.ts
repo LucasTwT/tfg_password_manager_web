@@ -2,15 +2,15 @@ import { useGlobalStore } from "@/core/store/useGlobalStore"
 import { API_URL } from "./constants"
 
 async function refresh(): Promise<{ response: string; status: boolean }> {
-    const { refresh_token, updateAccessToken } = useGlobalStore.getState()
+    const { updateAccessToken } = useGlobalStore.getState()
     try {
-        const content = JSON.stringify({ refresh_token: refresh_token })
+        // Refresh token is sent automatically via HttpOnly cookie
         const response = await fetch(`${API_URL}/auth/refresh`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: content,
+            credentials: "include", // Send cookies
         })
 
         if (!response.ok) {
@@ -34,6 +34,7 @@ async function verifyJwt(access_token: string): Promise<{ status: boolean }> {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${access_token}`,
             },
+            credentials: "include",
         })
 
         if (!response.ok) {
@@ -63,6 +64,7 @@ export async function apiFetch(url: string, options: RequestInit = {}): Promise<
             ...(options.headers || {}),
             Authorization: `Bearer ${token}`,
         },
+        credentials: "include", // Send cookies
     })
 
     if (res.status === 401) {
@@ -74,6 +76,7 @@ export async function apiFetch(url: string, options: RequestInit = {}): Promise<
                 ...(options.headers || {}),
                 Authorization: `Bearer ${newJwt}`,
             },
+            credentials: "include",
         })
     }
     return res

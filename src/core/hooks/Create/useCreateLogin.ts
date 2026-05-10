@@ -1,4 +1,4 @@
-import type { Logindata, LoginState, UpdatePayload } from "@/core/reducers/Create/useCreateLogin.d"
+import type { Logindata, LoginState, UpdatePayload } from "@/core/reducers/Create/useCreateLoginTypes"
 import { useTranslation } from "react-i18next"
 import { validateLoginForm } from "@/core/utils/helper/validateLoginForm"
 import { encryptXChaCha } from "@/core/services/crypto"

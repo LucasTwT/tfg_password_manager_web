@@ -1,7 +1,7 @@
 import { useReducer } from "react"
-import type {CreateVaultAction, CreateVaultState, UpdatePayload} from "./useCreateVault.d"
+import type {CreateVaultAction, CreateVaultState, UpdatePayload} from "./useCreateVaultTypes"
 import { DEFAULT_COLORS, FOUNDATION_ICONS } from "@/core/utils/constants"
-import type { Vault } from "../Home/useHome.d"
+import type { Vault } from "../Home/useHomeTypes"
 
 const initialState: CreateVaultState = {
     vaultPreview: {

@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import type { PopoverState } from "./usePopoverStore.d"
+import type { PopoverState } from "./usePopoverStoreTypes"
 import type { Vault } from "@/core/types/vault"
 import type { RefObject } from "react"
 

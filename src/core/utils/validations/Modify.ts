@@ -1,4 +1,4 @@
-import type { Vault } from "@/core/reducers/Home/useHome.d"
+import type { Vault } from "@/core/reducers/Home/useHomeTypes"
 
 export function validateModifyVaultName(vault: Vault, t: (key: string, opts?: Record<string, unknown>) => string, vaults: Vault[]) {
     if (vault.name.trim().length === 0) return t("create.vault.validations.vaultNameRequired")

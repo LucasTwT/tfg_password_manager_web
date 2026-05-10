@@ -1,5 +1,5 @@
-import type { Vault } from "@/core/reducers/Home/useHome.d"
-import type { LoginState } from "@/core/reducers/Create/useCreateLogin.d"
+import type { Vault } from "@/core/reducers/Home/useHomeTypes"
+import type { LoginState } from "@/core/reducers/Create/useCreateLoginTypes"
 
 type Validator = (value: string, t: (key: string, opts?: Record<string, unknown>) => string) => string
 

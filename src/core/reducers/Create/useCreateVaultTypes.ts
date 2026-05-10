@@ -1,4 +1,4 @@
-import { Vault } from "../Home/useHome.d";
+import { Vault } from "../Home/useHomeTypes";
 
 export interface CreateVaultState {
     vaultPreview: Vault,

@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import type { AppGlobalState } from "./useAppStore.d"
+import type { AppGlobalState } from "./useAppStoreTypes"
 import type { Vault } from "@/core/types/vault"
 
 export const useAppStore = create<AppGlobalState>((set) => {

@@ -1,6 +1,6 @@
 import { create } from "zustand"
-import type { OverlaySheetState } from "./useOverLaySheetTypes.d"
-import type { ButtonAction, TopButton } from "./useBottomSheetTypes.d"
+import type { OverlaySheetState } from "./useOverLaySheetTypes"
+import type { ButtonAction, TopButton } from "./useBottomSheetTypes"
 
 export const useOverlaySheetStore = create<OverlaySheetState>((set, get) => ({
     isOpen: false,

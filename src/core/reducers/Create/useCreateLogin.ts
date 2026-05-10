@@ -1,6 +1,6 @@
 import { useReducer } from "react";
-import { RegisterAction, LoginState, UpdatePayload } from "./useCreateLogin.d";
-import { RequestError } from "../Auth/useRegister.d";
+import type { RegisterAction, LoginState, UpdatePayload } from "./useCreateLoginTypes";
+import type { RequestError } from "../Auth/useRegisterTypes";
 
 export const initialState: LoginState = {
     logindata: {title: "", email: "", url: "", note: "", password: ""},
