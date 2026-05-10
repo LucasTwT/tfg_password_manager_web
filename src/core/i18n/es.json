@@ -1,0 +1,180 @@
+{
+  "auth": {
+    "register": {
+      "title": "Crear cuenta",
+      "usernameField": {
+        "label": "Nombre de usuario",
+        "placeholder": "Crea tu nombre de usuario"
+      },
+      "emailField": {
+        "label": "Correo",
+        "placeholder": "Introduce tu correo"
+      },
+      "passwordField": {
+        "label": "Contraseña",
+        "placeholder": "Crea tu contraseña"
+      },
+      "btnCreateUser": "Crear usuario",
+      "linkToLogin": "¿Ya tienes una cuenta?",
+      "validations": {
+        "passwordRequired": "La contraseña es obligatoria.",
+        "passwordInvalid": "La contraseña debe tener mínimo 8 caracteres, incluir mayúsculas, minúsculas, números y símbolos.",
+        "usernameRequired": "El nombre de usuario es obligatorio.",
+        "usernameInvalid": "El username debe tener entre 3 y 20 caracteres y solo puede contener letras, números, - y _.",
+        "emailRequired": "El email es obligatorio.",
+        "emailInvalid": "El email no es válido."
+      },
+      "requestErrors": {
+        "error409": {
+          "opc1": "Salir",
+          "opc2": "Iniciar sesión"
+        }
+      }
+    },
+    "login": {
+      "title": "Inicio de sesión",
+      "usernameField": {
+        "label": "Correo o nombre de usuario",
+        "placeholder": "Introduce el correo o username"
+      },
+      "passwordField": {
+        "label": "Contraseña",
+        "placeholder": "Introduce tu contraseña"
+      },
+      "btnLogin": "Inicio de sesión",
+      "linkToRegister": "¿No tienes cuenta?",
+      "validations": {
+        "identifierRequired": "El correo o nombre de usuario es obligatorio.",
+        "passwordRequired": "La contraseña es obligatoria."
+      },
+      "requestErrors": {
+        "error409": {
+          "opc1": "Salir",
+          "opc2": "Crear cuenta"
+        }
+      }
+    },
+    "lockGate": {
+      "title": "Desencriptar vault",
+      "btnTxt": "desencriptar",
+      "masterPasswordField": {
+        "label": "Contraseña",
+        "placeholder": "Introduce tu contraseña maestra"
+      }
+    }
+  },
+  "tabs": {
+    "home": {
+      "title": "Bóvedas",
+      "filterField": {
+        "placeholders": {
+          "all": "Todos",
+          "byName": "Nombre de bóveda",
+          "byDate": "Fecha de creación"
+        },
+        "modalOptions": {
+          "byName": "Filtrar por nombre de bóveda",
+          "byDate": "Filtrar por fecha de creación"
+        }
+      },
+      "vaults": {
+        "modalOptions": {
+          "modify": "Modificar",
+          "show": "Mostrar",
+          "delete": "Eliminar"
+        }
+      }
+    }
+  },
+  "create": {
+    "bottomSheetCreate": {
+      "title": "Crear",
+      "vault": {
+        "title": "Bóvedas",
+        "description": "Crear una nueva bóveda"
+      },
+      "login": {
+        "title": "Inicio de sesión",
+        "description": "Crear un nuevo inicio de sesión"
+      },
+      "file": {
+        "title": "Archivo",
+        "description": "Encriptrar un archivo"
+      }
+    },
+
+    "generateKeys": {
+      "title": "Generar contraseña"
+    },
+    "vault": {
+      "title": "Nueva bóveda",
+      "btnTxt": "Crear bóveda",
+      "vaultNameField": {
+        "label": "Nombre",
+        "placeholder": "Nombre por defecto"
+      },
+      "validations": {
+        "vaultNameRequired": "El nombre de la bóveda es obligatorio",
+        "vaultNameAlreadyExist": "Ya hay una bóveda con ese nombre"
+      }
+    },
+    "login": {
+      "title": "Crear inicio sesión",
+      "btnTxt": "guardar",
+      "loginForm": {
+        "titleField": {
+          "label": "Título",
+          "placeholder": "Introduce el título"
+        },
+        "emailField": {
+          "label": "Correo",
+          "placeholder": "Introduce el correo"
+        },
+        "urlField": {
+          "label": "Url",
+          "placeholder": "Introduce la url"
+        },
+        "noteField": {
+          "label": "Note",
+          "placeholder": "Nota (opcional)"
+        },
+        "passwordField": {
+          "label": "Contraseña",
+          "placeholder": "Introduce la contraseña"
+        },
+        "validations": {
+          "titleRequired": "El titulo es obligatorio",
+          "titleMinLength": "El titulo debe de tener al menos 3 caracteres",
+          "invalidEmail": "El email no es válido.",
+          "invalidUrl": "La URL no es válida",
+          "noteMaxLength": "La nota no puede tener más de 250 caracteres",
+          "passwordRequired": "La contraseña es obligatoria."
+        }
+      }
+    }
+  },
+  "modify": {
+    "vault": {
+      "title": "Actualizar bóveda",
+      "btnTxt": "Actualizar bóveda",
+      "vaultNameField": {
+        "label": "Nombre",
+        "placeholder": "Nombre por defecto"
+      },
+      "validations": {
+        "vaultNameRequired": "El nombre de la bóveda es obligatorio",
+        "vaultNameAlreadyExist": "Ya hay una bóveda con ese nombre"
+      }
+    }
+  },
+  "delete": {
+    "vault": {
+      "btnTxt": "Eliminar bóveda"
+    }
+  },
+  "aux": {
+    "changeVault": {
+      "title": "List of vaults"
+    }
+  }
+}

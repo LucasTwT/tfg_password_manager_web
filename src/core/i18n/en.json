@@ -1,0 +1,179 @@
+{
+  "auth": {
+    "register": {
+      "title": "Register account",
+      "usernameField": {
+        "label": "Username",
+        "placeholder": "Create your username"
+      },
+      "emailField": {
+        "label": "Email",
+        "placeholder": "Enter your email"
+      },
+      "passwordField": {
+        "label": "Password",
+        "placeholder": "Create your password"
+      },
+      "btnCreateUser": "Create user",
+      "linkToLogin": "Have you an account?",
+      "validations": {
+        "passwordRequired": "Password is required.",
+        "passwordInvalid": "Password must be at least 8 characters long and contain uppercase, lowercase, numbers and symbols.",
+        "usernameRequired": "Username is required.",
+        "usernameInvalid": "Username must be 3 to 20 characters and may only contain letters, numbers, - and _.",
+        "emailRequired": "Email is required.",
+        "emailInvalid": "Invalid email address."
+      },
+      "requestErrors": {
+        "error409": {
+          "opc1": "Exit",
+          "opc2": "Log in"
+        }
+      }
+    },
+    "login": {
+      "title": "Log in account",
+      "usernameField": {
+        "label": "Email or username",
+        "placeholder": "Enter your email or username"
+      },
+      "passwordField": {
+        "label": "Password",
+        "placeholder": "Enter your password"
+      },
+      "btnLogin": "Log in",
+      "linkToRegister": "Don't you have an account?",
+      "validations": {
+        "identifierRequired": "Email or username is required.",
+        "passwordRequired": "Password is required."
+      },
+      "requestErrors": {
+        "error409": {
+          "opc1": "Exit",
+          "opc2": "Register"
+        }
+      }
+    },
+    "verifyMasterPassword": {
+      "title": "Master password required",
+      "btnTxt": "Verify password",
+      "masterPasswordField": {
+        "label": "Password",
+        "placeholder": "Enter your password"
+      }
+    }
+  },
+  "tabs": {
+    "home": {
+      "title": "Vaults",
+      "filterField": {
+        "placeholders": {
+          "byName": "Vault name",
+          "byDate": "Creation date"
+        },
+        "modalOptions": {
+          "all": "all",
+          "byName": "Filter by vault name",
+          "byDate": "Filter by creation date"
+        }
+      },
+      "vaults": {
+        "modalOptions": {
+          "modify": "Modify",
+          "show": "Show",
+          "delete": "Delete"
+        }
+      }
+    }
+  },
+  "create": {
+    "bottomSheetCreate": {
+      "title": "Create",
+      "vault": {
+        "title": "Vaults",
+        "description": "Create a new vault"
+      },
+      "login": {
+        "title": "Login",
+        "description": "Create a new login"
+      },
+      "file": {
+        "title": "File",
+        "description": "Encrypt a file"
+      }
+    },
+    "generateKeys": {
+      "title": "Generate password"
+    },
+    "vault": {
+      "title": "New vault",
+      "btnTxt": "Create vault",
+      "vaultNameField": {
+        "label": "Name",
+        "placeholder": "Default name"
+      },
+      "validations": {
+        "vaultNameRequired": "The vault name is required",
+        "vaultNameAlreadyExist": "There is already a vault with that name"
+      }
+    },
+    "login": {
+      "title": "Create log in",
+      "btnTxt": "save",
+      "loginForm": {
+        "titleField": {
+          "label": "Title",
+          "placeholder": "Enter the title"
+        },
+        "emailField": {
+          "label": "Email",
+          "placeholder": "Enter the email"
+        },
+        "urlField": {
+          "label": "URL",
+          "placeholder": "Enter the URL"
+        },
+        "noteField": {
+          "label": "Note",
+          "placeholder": "Note (optional)"
+        },
+        "passwordField": {
+          "label": "Password",
+          "placeholder": "Enter the password"
+        },
+        "validations": {
+          "titleRequired": "The title is required",
+          "titleMinLength": "The title must be at least 3 characters long",
+          "invalidEmail": "The email is not valid.",
+          "invalidUrl": "The URL is not valid",
+          "noteMaxLength": "The note cannot be longer than 250 characters",
+          "passwordRequired": "The password is required."
+        }
+      }
+    }
+  },
+  "modify": {
+    "vault": {
+      "title": "Update vault",
+      "btnTxt": "Update vault",
+      "vaultNameField": {
+        "label": "Name",
+        "placeholder": "Default name"
+      },
+      "validations": {
+        "vaultNameRequired": "The vault name is required",
+        "vaultNameAlreadyExist": "There is already a vault with that name"
+      }
+    }
+  },
+  "delete": {
+    "vault": {
+      "btnTxt": "Delete vault"
+    }
+  },
+  "aux": {
+    "changeVault": {
+      "title": "List of vaults"
+    }
+  }
+}
