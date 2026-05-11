@@ -175,5 +175,57 @@
     "changeVault": {
       "title": "List of vaults"
     }
+  },
+  "app": {
+    "sidebar": {
+      "search": {
+        "placeholder": "Search vaults and logins..."
+      },
+      "vaults": "Vaults",
+      "noVaults": "No vaults yet",
+      "noLogins": "No logins in this vault",
+      "collapse": "Collapse sidebar",
+      "expand": "Expand sidebar"
+    },
+    "tabs": {
+      "untitled": "Untitled",
+      "close": "Close tab"
+    },
+    "content": {
+      "emptyState": {
+        "title": "No item selected",
+        "description": "Select a login or file from the sidebar to view it here"
+      },
+      "loginDetail": {
+        "title": "Title",
+        "username": "Username",
+        "email": "Email",
+        "password": "Password",
+        "url": "URL",
+        "notes": "Notes",
+        "copy": "Copy",
+        "copied": "Copied!",
+        "showPassword": "Show password",
+        "hidePassword": "Hide password",
+        "edit": "Edit",
+        "save": "Save",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "lastModified": "Last modified"
+      }
+    },
+    "settings": {
+      "title": "Settings",
+      "appearance": "Appearance",
+      "theme": "Theme",
+      "themeDark": "Dark",
+      "themeLight": "Light",
+      "language": "Language",
+      "security": "Security",
+      "changePassword": "Change Master Password",
+      "exportVaults": "Export All Vaults",
+      "logout": "Logout",
+      "close": "Close"
+    }
   }
 }

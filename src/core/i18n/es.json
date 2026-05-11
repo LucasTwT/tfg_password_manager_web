@@ -176,5 +176,57 @@
     "changeVault": {
       "title": "List of vaults"
     }
+  },
+  "app": {
+    "sidebar": {
+      "search": {
+        "placeholder": "Buscar bóvedas e inicios de sesión..."
+      },
+      "vaults": "Bóvedas",
+      "noVaults": "Aún no hay bóvedas",
+      "noLogins": "No hay inicios de sesión en esta bóveda",
+      "collapse": "Contraer barra lateral",
+      "expand": "Expandir barra lateral"
+    },
+    "tabs": {
+      "untitled": "Sin título",
+      "close": "Cerrar pestaña"
+    },
+    "content": {
+      "emptyState": {
+        "title": "Ningún elemento seleccionado",
+        "description": "Selecciona un inicio de sesión o archivo de la barra lateral para verlo aquí"
+      },
+      "loginDetail": {
+        "title": "Título",
+        "username": "Usuario",
+        "email": "Correo",
+        "password": "Contraseña",
+        "url": "URL",
+        "notes": "Notas",
+        "copy": "Copiar",
+        "copied": "¡Copiado!",
+        "showPassword": "Mostrar contraseña",
+        "hidePassword": "Ocultar contraseña",
+        "edit": "Editar",
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "delete": "Eliminar",
+        "lastModified": "Última modificación"
+      }
+    },
+    "settings": {
+      "title": "Configuración",
+      "appearance": "Apariencia",
+      "theme": "Tema",
+      "themeDark": "Oscuro",
+      "themeLight": "Claro",
+      "language": "Idioma",
+      "security": "Seguridad",
+      "changePassword": "Cambiar Contraseña Maestra",
+      "exportVaults": "Exportar Todas las Bóvedas",
+      "logout": "Cerrar sesión",
+      "close": "Cerrar"
+    }
   }
 }
