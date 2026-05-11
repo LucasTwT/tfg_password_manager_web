@@ -4,6 +4,10 @@ export interface GlobalState {
     // User settings
     settings: UserSettings
     updateSettings: (newSettings: UserSettings) => void
+    // User info
+    username: string
+    email: string
+    setUserInfo: (username: string, email: string) => void
     // Tokens (refresh_token lives in HttpOnly cookie)
     access_token: string
     updateAccessToken: (newAccessToken: string) => void

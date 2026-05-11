@@ -4,6 +4,7 @@ import type { RequestError } from "@/core/reducers/Auth/useRegisterTypes"
 import { regenerateKeys, signChallenge } from "@/core/services/crypto"
 import { authLoginStart, finishLogin } from "@/core/services/api/endpoints/auth"
 import { useGlobalStore } from "@/core/store/useGlobalStore"
+import { useFetchSettings } from "@/core/hooks/useFetchSettings"
 import { storage } from "@/core/storage"
 
 export const useLoginUser = (
@@ -12,7 +13,8 @@ export const useLoginUser = (
     setPressed: React.Dispatch<React.SetStateAction<boolean>>,
     setRequestError: (payload: RequestError) => void
 ) => {
-    const { updateAccessToken } = useGlobalStore()
+    const updateAccessToken = useGlobalStore((s) => s.updateAccessToken)
+    const { fetchAndApplySettings } = useFetchSettings()
 
     useEffect(() => {
         const { identifier, password } = state.userdata
@@ -28,10 +30,11 @@ export const useLoginUser = (
                         const result = await finishLogin(identifier, signature)
                         if (result.status) {
                             updateAccessToken(result.response["access_token"])
-                            // Refresh token is in HttpOnly cookie — only store salt
                             await storage.set("sensitive_data", {
                                 salt: response["salt"],
                             })
+                            // Fetch settings + user info
+                            await fetchAndApplySettings()
                             window.location.href = "/home"
                         } else {
                             setRequestError({ title: "Error", msg: result.response.detail })

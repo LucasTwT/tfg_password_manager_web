@@ -1,9 +1,13 @@
 import { Settings, User } from "lucide-react"
 import { useAppDispatch } from "@/app/context/AppContext"
+import { useGlobalStore } from "@/core/store/useGlobalStore"
 import { Button } from "@/app/components/ui/button"
+import { useTranslation } from "react-i18next"
 
 export function SidebarFooter() {
+  const { t } = useTranslation()
   const dispatch = useAppDispatch()
+  const username = useGlobalStore((s) => s.username)
 
   return (
     <div className="p-3 border-t border-[var(--border)] flex items-center gap-2">
@@ -12,7 +16,7 @@ export function SidebarFooter() {
           <User className="h-3.5 w-3.5 text-[var(--muted-foreground)]" />
         </div>
         <span className="text-sm text-[var(--muted-foreground)] truncate">
-          User
+          {username || "User"}
         </span>
       </div>
       <Button
@@ -20,7 +24,7 @@ export function SidebarFooter() {
         size="icon"
         className="h-8 w-8 shrink-0"
         onClick={() => dispatch({ type: "TOGGLE_SETTINGS" })}
-        aria-label="Settings"
+        aria-label={t("app.settings.title")}
       >
         <Settings className="h-4 w-4" />
       </Button>

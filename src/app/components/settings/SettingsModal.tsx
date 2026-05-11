@@ -4,6 +4,7 @@ import { useTheme } from "@/app/providers/ThemeProvider"
 import { useAppDispatch, useAppState } from "@/app/context/AppContext"
 import { useGlobalStore } from "@/core/store/useGlobalStore"
 import { logout } from "@/core/services/api/endpoints/auth"
+import { updateSettings as saveSettings } from "@/core/services/api/endpoints/users"
 import { Button } from "@/app/components/ui/button"
 import { Label } from "@/app/components/ui/label"
 import { useNavigate } from "react-router-dom"
@@ -25,13 +26,19 @@ export function SettingsModal() {
     dispatch({ type: "TOGGLE_SETTINGS" })
   }
 
+  const persistSettings = async (newSettings: typeof settings) => {
+    updateSettings(newSettings)
+    await saveSettings(newSettings)
+  }
+
   const handleThemeChange = (newTheme: "dark" | "light") => {
     setTheme(newTheme)
+    persistSettings({ ...settings, theme: newTheme })
   }
 
   const handleLanguageChange = (lang: "es" | "en") => {
     i18n.changeLanguage(lang)
-    updateSettings({ ...settings, lang })
+    persistSettings({ ...settings, lang })
   }
 
   const handleLogout = async () => {

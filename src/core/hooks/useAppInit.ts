@@ -3,15 +3,24 @@ import { useGlobalStore } from "@/core/store/useGlobalStore"
 import { useFetchSettings } from "@/core/hooks/useFetchSettings"
 import { API_URL } from "@/core/services/api/constants"
 
-export function useAutoLogin() {
-    const [checking, setChecking] = useState(true)
+export function useAppInit() {
+    const [ready, setReady] = useState(false)
     const updateAccessToken = useGlobalStore((s) => s.updateAccessToken)
     const { fetchAndApplySettings } = useFetchSettings()
 
     useEffect(() => {
         let cancelled = false
 
-        async function tryRefresh() {
+        async function init() {
+            // If we already have an access_token, just fetch settings
+            const { access_token } = useGlobalStore.getState()
+            if (access_token) {
+                await fetchAndApplySettings()
+                if (!cancelled) setReady(true)
+                return
+            }
+
+            // Otherwise try to refresh from cookie
             try {
                 const response = await fetch(`${API_URL}/auth/refresh`, {
                     method: "POST",
@@ -20,30 +29,25 @@ export function useAutoLogin() {
                 })
 
                 if (!cancelled && response.ok) {
-                    const { access_token } = await response.json()
-                    updateAccessToken(access_token)
-
-                    // Fetch user settings + info
+                    const { access_token: newToken } = await response.json()
+                    updateAccessToken(newToken)
                     await fetchAndApplySettings()
-
-                    window.location.href = "/home"
-                    return
                 }
             } catch {
-                // No valid cookie — user needs to log in
+                // No valid cookie
             }
 
             if (!cancelled) {
-                setChecking(false)
+                setReady(true)
             }
         }
 
-        tryRefresh()
+        init()
 
         return () => {
             cancelled = true
         }
     }, [])
 
-    return { checking }
+    return { ready }
 }

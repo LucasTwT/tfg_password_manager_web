@@ -2,6 +2,8 @@
 export { useLoginUser } from "./Auth/useLogin"
 export { useCreateUser } from "./Auth/useCreateUser"
 export { useAutoLogin } from "./Auth/useAutoLogin"
+export { useFetchSettings } from "./useFetchSettings"
+export { useAppInit } from "./useAppInit"
 export { useMasterPassword } from "./Auth/useMasterPassword"
 export { useKeys } from "./Auth/useKeys"
 export { useValidation } from "./Auth/useValidations"
