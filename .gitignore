@@ -48,3 +48,6 @@ coverage
 
 # SDD artifacts
 .atl/
+
+# PRDs & Interlan docs:
+PRDs/
