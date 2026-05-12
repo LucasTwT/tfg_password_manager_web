@@ -1,4 +1,30 @@
 {
+  "vaults": {
+    "create": {
+      "title": "Create Vault",
+      "namePlaceholder": "Vault name",
+      "selectIcon": "Select Icon",
+      "selectColor": "Select Color",
+      "save": "Create",
+      "cancel": "Cancel"
+    },
+    "edit": {
+      "title": "Edit Vault",
+      "save": "Save Changes"
+    },
+    "delete": {
+      "title": "Delete Vault",
+      "message": "Are you sure you want to delete this vault? This action cannot be undone.",
+      "confirm": "Delete",
+      "cancel": "Cancel"
+    },
+    "contextMenu": {
+      "rename": "Rename",
+      "changeIcon": "Change Icon",
+      "changeColor": "Change Color",
+      "delete": "Delete"
+    }
+  },
   "auth": {
     "register": {
       "title": "Register account",
@@ -226,6 +252,14 @@
       "exportVaults": "Export All Vaults",
       "logout": "Logout",
       "close": "Close"
+    },
+    "masterPassword": {
+      "title": "Master Password Required",
+      "description": "Enter your master password to continue with this action.",
+      "label": "Master Password",
+      "placeholder": "Enter your master password",
+      "confirm": "Confirm",
+      "cancel": "Cancel"
     }
   }
 }

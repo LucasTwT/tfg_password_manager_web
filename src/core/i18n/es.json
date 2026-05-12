@@ -1,4 +1,30 @@
 {
+  "vaults": {
+    "create": {
+      "title": "Crear Bóveda",
+      "namePlaceholder": "Nombre de la bóveda",
+      "selectIcon": "Seleccionar Ícono",
+      "selectColor": "Seleccionar Color",
+      "save": "Crear",
+      "cancel": "Cancelar"
+    },
+    "edit": {
+      "title": "Editar Bóveda",
+      "save": "Guardar Cambios"
+    },
+    "delete": {
+      "title": "Eliminar Bóveda",
+      "message": "¿Estás seguro de que quieres eliminar esta bóveda? Esta acción no se puede deshacer.",
+      "confirm": "Eliminar",
+      "cancel": "Cancelar"
+    },
+    "contextMenu": {
+      "rename": "Renombrar",
+      "changeIcon": "Cambiar Ícono",
+      "changeColor": "Cambiar Color",
+      "delete": "Eliminar"
+    }
+  },
   "auth": {
     "register": {
       "title": "Crear cuenta",
@@ -227,6 +253,14 @@
       "exportVaults": "Exportar Todas las Bóvedas",
       "logout": "Cerrar sesión",
       "close": "Cerrar"
+    },
+    "masterPassword": {
+      "title": "Contraseña Maestra Requerida",
+      "description": "Ingresa tu contraseña maestra para continuar con esta acción.",
+      "label": "Contraseña Maestra",
+      "placeholder": "Ingresa tu contraseña maestra",
+      "confirm": "Confirmar",
+      "cancel": "Cancelar"
     }
   }
 }

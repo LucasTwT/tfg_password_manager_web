@@ -83,7 +83,6 @@ export async function startDeleteVault() {
 }
 
 export async function finishDeleteVault(signature: string, vaultId: string) {
-    const { initUserVaults } = useAppStore.getState()
     try {
         const content = JSON.stringify({ signature: signature })
         const response = await apiFetch(
@@ -96,16 +95,17 @@ export async function finishDeleteVault(signature: string, vaultId: string) {
                 body: content,
             }
         )
+        const data = await response.json()
         if (!response.ok) {
-            const errorData = await response.json()
-            return { response: errorData, status: false }
+            return { response: data, status: false }
         }
-        getVaults().then(({ status, response }) => {
-            if (status === 200) {
-                initUserVaults(response.vaults)
-            }
-        })
-        return { response: await response.json(), status: true }
+        // Refresh vault list after successful delete
+        const { initUserVaults } = useAppStore.getState()
+        const vaultsResult = await getVaults()
+        if (vaultsResult.status === 200) {
+            initUserVaults(vaultsResult.response.vaults)
+        }
+        return { response: data, status: true }
     } catch (error) {
         return { response: error, status: false }
     }
