@@ -10,9 +10,12 @@ export const useGlobalStore = create<GlobalState>((set) => {
             logged: false,
             clipboard_cleaning: Clipboard_cleaning.later_2m
         },
+        username: "",
+        email: "",
         access_token: "",
         cryptoContext: undefined,
         updateSettings: (newSettings: UserSettings) => set({ settings: newSettings }),
+        setUserInfo: (username: string, email: string) => set({ username, email }),
         updateAccessToken: (newAccessToken: string) => set({ access_token: newAccessToken }),
 
         updateCryptoContext: (newCryptoCtx: CryptoContext) => set({ cryptoContext: newCryptoCtx }),

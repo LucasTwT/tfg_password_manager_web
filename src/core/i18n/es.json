@@ -1,4 +1,30 @@
 {
+  "vaults": {
+    "create": {
+      "title": "Crear Bóveda",
+      "namePlaceholder": "Nombre de la bóveda",
+      "selectIcon": "Seleccionar Ícono",
+      "selectColor": "Seleccionar Color",
+      "save": "Crear",
+      "cancel": "Cancelar"
+    },
+    "edit": {
+      "title": "Editar Bóveda",
+      "save": "Guardar Cambios"
+    },
+    "delete": {
+      "title": "Eliminar Bóveda",
+      "message": "¿Estás seguro de que quieres eliminar esta bóveda? Esta acción no se puede deshacer.",
+      "confirm": "Eliminar",
+      "cancel": "Cancelar"
+    },
+    "contextMenu": {
+      "rename": "Renombrar",
+      "changeIcon": "Cambiar Ícono",
+      "changeColor": "Cambiar Color",
+      "delete": "Eliminar"
+    }
+  },
   "auth": {
     "register": {
       "title": "Crear cuenta",
@@ -175,6 +201,66 @@
   "aux": {
     "changeVault": {
       "title": "List of vaults"
+    }
+  },
+  "app": {
+    "sidebar": {
+      "search": {
+        "placeholder": "Buscar bóvedas e inicios de sesión..."
+      },
+      "vaults": "Bóvedas",
+      "noVaults": "Aún no hay bóvedas",
+      "noLogins": "No hay inicios de sesión en esta bóveda",
+      "collapse": "Contraer barra lateral",
+      "expand": "Expandir barra lateral"
+    },
+    "tabs": {
+      "untitled": "Sin título",
+      "close": "Cerrar pestaña"
+    },
+    "content": {
+      "emptyState": {
+        "title": "Ningún elemento seleccionado",
+        "description": "Selecciona un inicio de sesión o archivo de la barra lateral para verlo aquí"
+      },
+      "loginDetail": {
+        "title": "Título",
+        "username": "Usuario",
+        "email": "Correo",
+        "password": "Contraseña",
+        "url": "URL",
+        "notes": "Notas",
+        "copy": "Copiar",
+        "copied": "¡Copiado!",
+        "showPassword": "Mostrar contraseña",
+        "hidePassword": "Ocultar contraseña",
+        "edit": "Editar",
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "delete": "Eliminar",
+        "lastModified": "Última modificación"
+      }
+    },
+    "settings": {
+      "title": "Configuración",
+      "appearance": "Apariencia",
+      "theme": "Tema",
+      "themeDark": "Oscuro",
+      "themeLight": "Claro",
+      "language": "Idioma",
+      "security": "Seguridad",
+      "changePassword": "Cambiar Contraseña Maestra",
+      "exportVaults": "Exportar Todas las Bóvedas",
+      "logout": "Cerrar sesión",
+      "close": "Cerrar"
+    },
+    "masterPassword": {
+      "title": "Contraseña Maestra Requerida",
+      "description": "Ingresa tu contraseña maestra para continuar con esta acción.",
+      "label": "Contraseña Maestra",
+      "placeholder": "Ingresa tu contraseña maestra",
+      "confirm": "Confirmar",
+      "cancel": "Cancelar"
     }
   }
 }

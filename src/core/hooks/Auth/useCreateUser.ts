@@ -3,6 +3,7 @@ import { generateSalt, regenerateKeys } from "@/core/services/crypto"
 import { registerUser } from "@/core/services/api/endpoints/auth"
 import type { RegisterState, RequestError } from "@/core/reducers/Auth/useRegisterTypes"
 import { useGlobalStore } from "@/core/store/useGlobalStore"
+import { useFetchSettings } from "@/core/hooks/useFetchSettings"
 import { storage } from "@/core/storage"
 
 export const useCreateUser = (
@@ -11,7 +12,8 @@ export const useCreateUser = (
     setPressed: React.Dispatch<React.SetStateAction<boolean>>,
     setRequestError: (payload: RequestError) => void
 ) => {
-    const { updateAccessToken } = useGlobalStore()
+    const updateAccessToken = useGlobalStore((s) => s.updateAccessToken)
+    const { fetchAndApplySettings } = useFetchSettings()
 
     useEffect(() => {
         const { username, password, email } = state.userdata
@@ -24,10 +26,11 @@ export const useCreateUser = (
                     registerUser(username, email, salt).then(async ({ response, status }) => {
                         if (status) {
                             updateAccessToken(response["access_token"])
-                            // Refresh token is in HttpOnly cookie — only store salt
                             await storage.set("sensitive_data", {
                                 salt,
                             })
+                            // Fetch settings + user info
+                            await fetchAndApplySettings()
                             window.location.href = "/home"
                         } else {
                             setRequestError({ title: "Error", msg: response.detail })
