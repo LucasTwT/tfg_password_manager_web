@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react"
 import type { Login } from "@/core/types/login"
-import { copyToClipboard } from "@/core/clipboard"
+import { useClipboardClear } from "@/core/hooks/useClipboardClear"
 
 interface UseLoginDetailReturn {
   isEditing: boolean
@@ -9,7 +9,7 @@ interface UseLoginDetailReturn {
   copiedField: string | null
   startEdit: () => void
   cancelEdit: () => void
-  saveEdit: () => void
+  saveEdit: () => Promise<void>
   updateField: (field: keyof Login, value: string) => void
   togglePassword: () => void
   copyField: (field: keyof Login, value: string) => void
@@ -17,12 +17,13 @@ interface UseLoginDetailReturn {
 
 export function useLoginDetail(
   login: Login,
-  onSave?: (data: Partial<Login>) => void
+  onSave?: (data: Partial<Login>) => Promise<void>
 ): UseLoginDetailReturn {
   const [isEditing, setIsEditing] = useState(false)
   const [editData, setEditData] = useState<Partial<Login>>({})
   const [showPassword, setShowPassword] = useState(false)
   const [copiedField, setCopiedField] = useState<string | null>(null)
+  const { copyWithClear } = useClipboardClear()
 
   const startEdit = useCallback(() => {
     setEditData({ ...login })
@@ -35,8 +36,10 @@ export function useLoginDetail(
     setIsEditing(false)
   }, [])
 
-  const saveEdit = useCallback(() => {
-    onSave?.(editData)
+  const saveEdit = useCallback(async () => {
+    if (onSave) {
+      await onSave(editData)
+    }
     setIsEditing(false)
   }, [editData, onSave])
 
@@ -48,13 +51,16 @@ export function useLoginDetail(
     setShowPassword((prev) => !prev)
   }, [])
 
-  const copyField = useCallback(async (field: keyof Login, value: string) => {
-    const ok = await copyToClipboard(value)
-    if (ok) {
-      setCopiedField(field)
-      setTimeout(() => setCopiedField(null), 2000)
-    }
-  }, [])
+  const copyField = useCallback(
+    async (field: keyof Login, value: string) => {
+      const ok = await copyWithClear(value)
+      if (ok) {
+        setCopiedField(field)
+        setTimeout(() => setCopiedField(null), 2000)
+      }
+    },
+    [copyWithClear]
+  )
 
   return {
     isEditing,

@@ -262,5 +262,61 @@
       "confirm": "Confirmar",
       "cancel": "Cancelar"
     }
+  },
+  "logins": {
+    "create": {
+      "title": "Crear Inicio de Sesión",
+      "titlePlaceholder": "ej., Netflix, GitHub...",
+      "usernamePlaceholder": "Nombre de usuario",
+      "emailPlaceholder": "Correo electrónico",
+      "passwordPlaceholder": "Contraseña",
+      "urlPlaceholder": "https://...",
+      "notesPlaceholder": "Notas (opcional)",
+      "generatePassword": "Generar Contraseña",
+      "save": "Crear",
+      "cancel": "Cancelar"
+    },
+    "edit": {
+      "title": "Editar Inicio de Sesión",
+      "save": "Guardar Cambios"
+    },
+    "delete": {
+      "title": "Eliminar Inicio de Sesión",
+      "message": "¿Estás seguro de que quieres eliminar este inicio de sesión? Esta acción no se puede deshacer.",
+      "confirm": "Eliminar",
+      "cancel": "Cancelar"
+    },
+    "actions": {
+      "copy": "Copiar",
+      "copied": "¡Copiado!",
+      "openUrl": "Abrir URL",
+      "showPassword": "Mostrar contraseña",
+      "hidePassword": "Ocultar contraseña"
+    },
+    "clipboard": {
+      "cleared": "Portapapeles limpiado"
+    }
+  },
+  "passwordGenerator": {
+    "title": "Generar Contraseña",
+    "random": "Aleatoria",
+    "memorable": "Memorable",
+    "length": "Longitud",
+    "words": "Palabras",
+    "uppercase": "Mayúsculas (A-Z)",
+    "numbers": "Números (0-9)",
+    "symbols": "Símbolos (!@#$...)",
+    "avoidAmbiguous": "Evitar ambiguos (0O1lI)",
+    "noRepeating": "Sin caracteres repetidos",
+    "regenerate": "Regenerar",
+    "usePassword": "Usar Contraseña",
+    "copy": "Copiar",
+    "copied": "¡Copiado!",
+    "strength": {
+      "weak": "Débil",
+      "fair": "Regular",
+      "good": "Buena",
+      "strong": "Fuerte"
+    }
   }
 }

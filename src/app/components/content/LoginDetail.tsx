@@ -1,46 +1,48 @@
 import { useTranslation } from "react-i18next"
-import {
-  User,
-  Mail,
-  Globe,
-  FileText,
-  Clock,
-  Pencil,
-  Save,
-  X,
-  Trash2,
-} from "lucide-react"
-import { Button } from "@/app/components/ui/button"
+import { Clock } from "lucide-react"
 import { Input } from "@/app/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/card"
 import type { Login } from "@/core/types/login"
 import { useLoginDetail } from "@/core/hooks/useLoginDetail"
-import { FieldRow, PasswordField } from "./fields"
+import { useLoginActions } from "@/core/hooks/useLoginActions"
+import { useCryptoGuard } from "@/core/hooks/useCryptoGuard.tsx"
+import { DeleteConfirmDialog } from "@/app/components/ui/DeleteConfirmDialog"
+import { MasterPasswordDialog } from "@/app/components/ui/MasterPasswordDialog"
+import { LoginActions } from "./LoginActions"
+import { LoginFields } from "./LoginFields"
+import { useLoginDeleteFlow } from "@/core/hooks/useLoginDeleteFlow"
+import { useLoginDetailActions } from "@/core/hooks/useLoginDetailActions"
 
 interface LoginDetailProps {
   login: Login
-  onSave?: (data: Partial<Login>) => void
 }
 
-export function LoginDetail({ login, onSave }: LoginDetailProps) {
+export function LoginDetail({ login }: LoginDetailProps) {
   const { t } = useTranslation()
-  const {
-    isEditing,
-    editData,
-    showPassword,
-    copiedField,
-    startEdit,
-    cancelEdit,
-    saveEdit,
-    updateField,
-    togglePassword,
-    copyField,
-  } = useLoginDetail(login, onSave)
+  const { modifyLogin } = useLoginActions()
+  const { ready: cryptoReady, requestUnlock, PasswordDialog: CryptoGuardDialog } = useCryptoGuard()
 
-  const displayValue = (field: keyof Login): string => {
-    if (isEditing) return editData[field] ?? login[field] ?? ""
-    return login[field] ?? ""
-  }
+  const {
+    deleteDialog, passwordDialog,
+    handleDeleteConfirm, handleDeleteCancel,
+    handleDeleteStart, handlePasswordConfirm, handlePasswordCancel,
+  } = useLoginDeleteFlow({ login })
+
+  // First pass: get handleSave (no dependency on editing state)
+  const { handleSave } = useLoginDetailActions({ login, cryptoReady, requestUnlock, modifyLogin })
+
+  const {
+    isEditing, editData, showPassword, copiedField,
+    startEdit, cancelEdit, saveEdit, updateField, togglePassword, copyField,
+  } = useLoginDetail(login, handleSave)
+
+  // Second pass: get actions that depend on editing state
+  const { handleGeneratePassword, handleOpenUrl } = useLoginDetailActions({
+    login, cryptoReady, requestUnlock, modifyLogin, updateField, isEditing, editDataUrl: editData.url,
+  })
+
+  const displayValue = (field: keyof Login): string =>
+    isEditing ? editData[field] ?? login[field] ?? "" : login[field] ?? ""
 
   const maskedPassword = login.password
     ? "\u2022".repeat(Math.min(login.password.length, 16))
@@ -62,94 +64,31 @@ export function LoginDetail({ login, onSave }: LoginDetailProps) {
             )}
           </CardTitle>
           <div className="flex items-center gap-2">
-            {isEditing ? (
-              <>
-                <Button variant="outline" size="sm" onClick={cancelEdit}>
-                  <X className="h-4 w-4 mr-1" />
-                  {t("app.content.loginDetail.cancel")}
-                </Button>
-                <Button size="sm" onClick={saveEdit}>
-                  <Save className="h-4 w-4 mr-1" />
-                  {t("app.content.loginDetail.save")}
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button variant="outline" size="sm" onClick={startEdit}>
-                  <Pencil className="h-4 w-4 mr-1" />
-                  {t("app.content.loginDetail.edit")}
-                </Button>
-                <Button variant="destructive" size="sm">
-                  <Trash2 className="h-4 w-4 mr-1" />
-                  {t("app.content.loginDetail.delete")}
-                </Button>
-              </>
-            )}
+            <LoginActions
+              isEditing={isEditing}
+              onStartEdit={startEdit}
+              onCancelEdit={cancelEdit}
+              onSave={saveEdit}
+              onDelete={handleDeleteConfirm}
+            />
           </div>
         </CardHeader>
 
         <CardContent className="space-y-6">
-          <FieldRow
-            icon={<User className="h-4 w-4" />}
-            label={t("app.content.loginDetail.username")}
-            value={displayValue("username")}
-            field="username"
+          <LoginFields
+            login={login}
             isEditing={isEditing}
-            copiedField={copiedField}
-            onCopy={() => copyField("username", login.username)}
-            onChange={(val) => updateField("username", val)}
-          />
-
-          <FieldRow
-            icon={<Mail className="h-4 w-4" />}
-            label={t("app.content.loginDetail.email")}
-            value={displayValue("email")}
-            field="email"
-            isEditing={isEditing}
-            copiedField={copiedField}
-            onCopy={() => copyField("email", login.email)}
-            onChange={(val) => updateField("email", val)}
-          />
-
-          <PasswordField
-            value={isEditing ? displayValue("password") : maskedPassword}
-            rawValue={login.password}
-            isEditing={isEditing}
+            editData={editData}
             showPassword={showPassword}
             copiedField={copiedField}
-            onTogglePassword={togglePassword}
-            onCopy={() => copyField("password", login.password)}
-            onChange={(val) => updateField("password", val)}
+            maskedPassword={maskedPassword}
+            displayValue={displayValue}
+            updateField={updateField}
+            togglePassword={togglePassword}
+            copyField={copyField}
+            onGeneratePassword={handleGeneratePassword}
+            onOpenUrl={handleOpenUrl}
           />
-
-          <FieldRow
-            icon={<Globe className="h-4 w-4" />}
-            label={t("app.content.loginDetail.url")}
-            value={displayValue("url")}
-            field="url"
-            isEditing={isEditing}
-            copiedField={copiedField}
-            onCopy={() => copyField("url", login.url)}
-            onChange={(val) => updateField("url", val)}
-          />
-
-          <div className="space-y-2">
-            <div className="flex items-center gap-2 text-sm font-medium text-[var(--muted-foreground)]">
-              <FileText className="h-4 w-4" />
-              {t("app.content.loginDetail.notes")}
-            </div>
-            {isEditing ? (
-              <textarea
-                value={displayValue("notes")}
-                onChange={(e) => updateField("notes", e.target.value)}
-                className="flex min-h-[80px] w-full rounded-md border border-[var(--input)] bg-[var(--background)] px-3 py-2 text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)]"
-              />
-            ) : (
-              <p className="text-sm text-[var(--foreground)] whitespace-pre-wrap">
-                {login.notes || "\u2014"}
-              </p>
-            )}
-          </div>
 
           {login.updated_at && (
             <div className="flex items-center gap-2 text-xs text-[var(--muted-foreground)] pt-4 border-t border-[var(--border)]">
@@ -160,6 +99,25 @@ export function LoginDetail({ login, onSave }: LoginDetailProps) {
           )}
         </CardContent>
       </Card>
+
+      {deleteDialog && (
+        <DeleteConfirmDialog
+          title={t("logins.delete.title")}
+          message={t("logins.delete.message")}
+          onConfirm={handleDeleteStart}
+          onCancel={handleDeleteCancel}
+        />
+      )}
+
+      {passwordDialog && (
+        <MasterPasswordDialog
+          title={t("app.masterPassword.title")}
+          onConfirm={handlePasswordConfirm}
+          onCancel={handlePasswordCancel}
+        />
+      )}
+
+      {CryptoGuardDialog}
     </div>
   )
 }

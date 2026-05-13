@@ -19,8 +19,16 @@ export function Tab({ tab, isActive, onSelect, onClose }: TabProps) {
   }
 
   return (
-    <button
+    <div
       onClick={onSelect}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onSelect()
+        }
+      }}
+      role="button"
+      tabIndex={0}
       className={cn(
         "flex items-center gap-1.5 px-3 py-2 text-sm border-r border-[var(--border)] transition-colors cursor-pointer min-w-0 shrink-0",
         isActive
@@ -43,6 +51,6 @@ export function Tab({ tab, isActive, onSelect, onClose }: TabProps) {
       >
         <X className="h-3 w-3" />
       </button>
-    </button>
+    </div>
   )
 }

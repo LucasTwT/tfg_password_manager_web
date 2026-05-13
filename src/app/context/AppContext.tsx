@@ -67,9 +67,12 @@ function appReducer(state: AppState, action: AppAction): AppState {
     }
 
     case "OPEN_TAB": {
-      const exists = state.openTabs.find((t) => t.id === action.tab.id)
-      if (exists) {
-        return { ...state, activeTabId: action.tab.id }
+      const existingIndex = state.openTabs.findIndex((t) => t.id === action.tab.id)
+      if (existingIndex !== -1) {
+        // Update existing tab data and set as active
+        const updatedTabs = [...state.openTabs]
+        updatedTabs[existingIndex] = action.tab
+        return { ...state, openTabs: updatedTabs, activeTabId: action.tab.id }
       }
       return {
         ...state,

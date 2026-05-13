@@ -261,5 +261,61 @@
       "confirm": "Confirm",
       "cancel": "Cancel"
     }
+  },
+  "logins": {
+    "create": {
+      "title": "Create Login",
+      "titlePlaceholder": "e.g., Netflix, GitHub...",
+      "usernamePlaceholder": "Username",
+      "emailPlaceholder": "Email",
+      "passwordPlaceholder": "Password",
+      "urlPlaceholder": "https://...",
+      "notesPlaceholder": "Notes (optional)",
+      "generatePassword": "Generate Password",
+      "save": "Create",
+      "cancel": "Cancel"
+    },
+    "edit": {
+      "title": "Edit Login",
+      "save": "Save Changes"
+    },
+    "delete": {
+      "title": "Delete Login",
+      "message": "Are you sure you want to delete this login? This action cannot be undone.",
+      "confirm": "Delete",
+      "cancel": "Cancel"
+    },
+    "actions": {
+      "copy": "Copy",
+      "copied": "Copied!",
+      "openUrl": "Open URL",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password"
+    },
+    "clipboard": {
+      "cleared": "Clipboard cleared"
+    }
+  },
+  "passwordGenerator": {
+    "title": "Generate Password",
+    "random": "Random",
+    "memorable": "Memorable",
+    "length": "Length",
+    "words": "Words",
+    "uppercase": "Uppercase (A-Z)",
+    "numbers": "Numbers (0-9)",
+    "symbols": "Symbols (!@#$...)",
+    "avoidAmbiguous": "Avoid ambiguous (0O1lI)",
+    "noRepeating": "No repeating characters",
+    "regenerate": "Regenerate",
+    "usePassword": "Use Password",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "strength": {
+      "weak": "Weak",
+      "fair": "Fair",
+      "good": "Good",
+      "strong": "Strong"
+    }
   }
 }

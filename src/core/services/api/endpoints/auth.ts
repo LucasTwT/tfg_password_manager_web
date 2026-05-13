@@ -168,7 +168,10 @@ export async function challengeFinish({
             const errorData = await response.json()
             return { response: errorData, status: false }
         }
-        return { response: await response.json(), status: true }
+        const data = await response.json()
+        // Backend returns HTTP 202 for both success and failure
+        // We need to check the 'status' field in the response body
+        return { response: data, status: data.status === true }
     } catch (error) {
         return { response: error, status: false }
     }

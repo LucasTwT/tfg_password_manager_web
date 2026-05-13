@@ -10,9 +10,9 @@ export async function decryptXChaCha(
     const additionalData = ""
     const plaintextBytes = sodium.crypto_aead_xchacha20poly1305_ietf_decrypt(
         null,
-        sodium.from_base64(ciphertext),
+        sodium.from_base64(ciphertext, sodium.base64_variants.ORIGINAL),
         additionalData,
-        sodium.from_base64(nonce),
+        sodium.from_base64(nonce, sodium.base64_variants.ORIGINAL),
         keyHex
     )
     return sodium.to_string(plaintextBytes)
@@ -36,7 +36,7 @@ export async function encryptXChaCha(
     )
 
     return {
-        ciphertext: sodium.to_base64(ciphertext),
-        nonce: sodium.to_base64(nonce),
+        ciphertext: sodium.to_base64(ciphertext, sodium.base64_variants.ORIGINAL),
+        nonce: sodium.to_base64(nonce, sodium.base64_variants.ORIGINAL),
     }
 }
