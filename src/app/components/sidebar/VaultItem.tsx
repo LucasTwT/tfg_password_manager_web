@@ -14,7 +14,7 @@ import { VaultDeleteFlow } from "./VaultDeleteFlow"
 import { useVaultItemReducer } from "@/core/hooks/useVaultItemReducer"
 import { useVaultLogins } from "@/core/hooks/useVaultLogins"
 import { useCryptoGuard } from "@/core/hooks/useCryptoGuard.tsx"
-import { useVaultItemActions } from "@/core/hooks/useVaultItemActions"
+import { useVaultItemActions } from "@/core/hooks/useVaultItemActions.tsx"
 
 interface VaultItemProps { vault: Vault }
 
