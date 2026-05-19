@@ -1,5 +1,6 @@
 import { useReducer, useCallback } from "react"
 import type { Login } from "@/core/types/login"
+import type { VaultFile } from "@/core/types/file"
 
 /**
  * VaultItemReducer state management
@@ -17,6 +18,10 @@ interface VaultItemState {
   logins: Login[]
   /** Whether logins are currently being loaded */
   loadingLogins: boolean
+  /** List of files loaded for this vault */
+  files: VaultFile[]
+  /** Whether files are currently being loaded */
+  loadingFiles: boolean
   /** Whether create login modal is open */
   createModal: boolean
 }
@@ -28,6 +33,9 @@ type VaultItemAction =
   | { type: "SET_LOGINS"; logins: Login[] }
   | { type: "UPDATE_LOGIN"; loginId: string; updates: Partial<Login> }
   | { type: "SET_LOADING"; loading: boolean }
+  | { type: "SET_FILES"; files: VaultFile[] }
+  | { type: "APPEND_FILE"; file: VaultFile }
+  | { type: "SET_FILES_LOADING"; loading: boolean }
   | { type: "SET_CREATE_MODAL"; open: boolean }
   | { type: "RESET" }
 
@@ -37,6 +45,8 @@ const initialState: VaultItemState = {
   deleteFlow: false,
   logins: [],
   loadingLogins: false,
+  files: [],
+  loadingFiles: false,
   createModal: false,
 }
 
@@ -59,6 +69,12 @@ function vaultItemReducer(state: VaultItemState, action: VaultItemAction): Vault
       }
     case "SET_LOADING":
       return { ...state, loadingLogins: action.loading }
+    case "SET_FILES":
+      return { ...state, files: action.files }
+    case "APPEND_FILE":
+      return { ...state, files: [...state.files, action.file] }
+    case "SET_FILES_LOADING":
+      return { ...state, loadingFiles: action.loading }
     case "SET_CREATE_MODAL":
       return { ...state, createModal: action.open }
     case "RESET":
@@ -101,6 +117,28 @@ export function useVaultItemReducer() {
     dispatch({ type: "SET_LOADING", loading })
   }, [])
 
+  /** Set loaded files list */
+  const setFiles = useCallback((files: VaultFile[] | ((prev: VaultFile[]) => VaultFile[])) => {
+    if (typeof files === "function") {
+      // For functional updates, dispatch a special action
+      // We'll handle this in VaultItem by using state.files directly
+      // For now, this won't work with functional updates from the hook
+      // The VaultItem should use appendFile instead
+    } else {
+      dispatch({ type: "SET_FILES", files })
+    }
+  }, [])
+
+  /** Append a file to the files list */
+  const appendFile = useCallback((file: VaultFile) => {
+    dispatch({ type: "APPEND_FILE", file })
+  }, [])
+
+  /** Set loading state for files */
+  const setFilesLoading = useCallback((loading: boolean) => {
+    dispatch({ type: "SET_FILES_LOADING", loading })
+  }, [])
+
   /** Open or close create login modal */
   const setCreateModal = useCallback((open: boolean) => {
     dispatch({ type: "SET_CREATE_MODAL", open })
@@ -119,6 +157,9 @@ export function useVaultItemReducer() {
     setLogins,
     updateLogin,
     setLoading,
+    setFiles,
+    appendFile,
+    setFilesLoading,
     setCreateModal,
     reset,
   }

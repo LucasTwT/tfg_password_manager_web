@@ -23,5 +23,17 @@ export {
 // Login endpoints
 export { loginStart as createLogin } from "./endpoints/logins"
 
+// File endpoints
+export {
+    initFileUpload,
+    uploadFileChunk,
+    completeFileUpload,
+    getFileMetadata,
+    getFileChunks,
+    listFilesByVault,
+    startDeleteFile,
+    finishDeleteFile,
+} from "./endpoints/files"
+
 // User endpoints
 export { getSettings } from "./endpoints/users"

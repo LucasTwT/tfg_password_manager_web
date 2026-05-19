@@ -1,5 +1,6 @@
 import { createContext, useContext, useReducer, type Dispatch, type ReactNode } from "react"
 import type { Login } from "@/core/types/login"
+import type { VaultFile } from "@/core/types/file"
 
 // --- Types ---
 
@@ -7,13 +8,7 @@ export interface Tab {
   id: string
   type: "login" | "file"
   title: string
-  data: Login | FileData
-}
-
-export interface FileData {
-  id: string
-  name: string
-  vaultId: string
+  data: Login | VaultFile
 }
 
 export interface AppState {
