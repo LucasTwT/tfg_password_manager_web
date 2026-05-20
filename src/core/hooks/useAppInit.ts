@@ -3,6 +3,7 @@ import { useGlobalStore } from "@/core/store/useGlobalStore"
 import { useFetchSettings } from "@/core/hooks/useFetchSettings"
 import { useVaultActions } from "@/core/hooks/useVaultActions"
 import { API_URL } from "@/core/services/api/constants"
+import { platformFetch } from "@/core/services/api/adapters/platformFetch"
 
 export function useAppInit() {
     const [ready, setReady] = useState(false)
@@ -25,10 +26,9 @@ export function useAppInit() {
 
             // Otherwise try to refresh from cookie
             try {
-                const response = await fetch(`${API_URL}/auth/refresh`, {
+                const response = await platformFetch(`${API_URL}/auth/refresh`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    credentials: "include",
                 })
 
                 if (!cancelled && response.ok) {
