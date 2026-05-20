@@ -132,7 +132,7 @@ export function SettingsModal() {
                 {t("app.settings.clipboardCleaning")}
               </Label>
               <select
-                className="w-full rounded-md border border-[var(--border)] bg-[var(--background)] p-2 text-sm"
+                className="w-full rounded-md border border-[var(--border)] bg-[var(--background)] text-[var(--foreground)] p-2 text-sm appearance-none cursor-pointer"
                 value={settings.clipboard_cleaning}
                 onChange={(e) => handleClipboardCleaningChange(Number(e.target.value))}
               >
