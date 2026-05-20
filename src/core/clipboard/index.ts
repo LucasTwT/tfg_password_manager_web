@@ -1,21 +1,17 @@
-/**
- * Copy text to the clipboard.
- * Falls back to execCommand for older browsers.
- */
+import { isTauri } from '@/platform'
+import type { ClipboardAPI } from './types'
+
 export async function copyToClipboard(text: string): Promise<boolean> {
+  const clipboard: ClipboardAPI = isTauri()
+    ? await import('./tauriClipboard').then(m => m.tauriClipboard)
+    : await import('./webClipboard').then(m => m.webClipboard)
+
   try {
-    await navigator.clipboard.writeText(text)
+    await clipboard.write(text)
     return true
   } catch {
-    // Fallback for non-secure contexts
-    const textarea = document.createElement("textarea")
-    textarea.value = text
-    textarea.style.position = "fixed"
-    textarea.style.opacity = "0"
-    document.body.appendChild(textarea)
-    textarea.select()
-    const ok = document.execCommand("copy")
-    document.body.removeChild(textarea)
-    return ok
+    return false
   }
 }
+
+export type { ClipboardAPI } from './types'
