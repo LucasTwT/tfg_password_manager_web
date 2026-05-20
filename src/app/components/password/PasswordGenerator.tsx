@@ -4,6 +4,7 @@ import { RefreshCw, Check } from "lucide-react"
 import { Button } from "@/app/components/ui/button"
 import { usePasswordGenerator } from "@/core/hooks/usePasswordGenerator"
 import { PasswordType } from "@/core/reducers/Create/useGenerateKeyTypes"
+import { copyToClipboard } from "@/core/clipboard"
 import { PasswordDisplay } from "./PasswordDisplay"
 import { PasswordStrengthBar } from "./PasswordStrengthBar"
 import { PasswordTypeSelector } from "./PasswordTypeSelector"
@@ -22,7 +23,7 @@ export function PasswordGenerator({ onUse, onClose }: PasswordGeneratorProps) {
   const [copied, setCopied] = useState(false)
 
   const handleCopy = useCallback(async () => {
-    await navigator.clipboard.writeText(state.password)
+    await copyToClipboard(state.password)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }, [state.password])

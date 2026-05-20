@@ -12,7 +12,7 @@ export function useClipboardClear() {
       const ok = await copyToClipboard(text)
       if (ok && clipboardCleaning) {
         setTimeout(() => {
-          navigator.clipboard.writeText("")
+          copyToClipboard("")
         }, clipboardCleaning * 1000)
       }
       return ok
