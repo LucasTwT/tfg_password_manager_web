@@ -1,9 +1,14 @@
 import { isTauri } from '@/platform'
 
 /**
- * Platform-aware fetch that resolves to the Tauri HTTP plugin
+ * Platform-aware fetch that delegates to the Tauri HTTP plugin
  * when running inside the desktop shell, and falls back to
  * the browser's native fetch otherwise.
+ *
+ * In Tauri: the HTTP plugin routes requests through the Rust layer,
+ * bypassing CORS and handling cookies natively.
+ *
+ * In browser: native fetch with `credentials: "include"` for HttpOnly cookies.
  */
 export async function platformFetch(
   url: string,
@@ -11,14 +16,10 @@ export async function platformFetch(
 ): Promise<Response> {
   if (isTauri()) {
     const { fetch: tauriFetch } = await import('@tauri-apps/plugin-http')
-    return tauriFetch(url, {
-      method: options.method,
-      headers: options.headers as Record<string, string>,
-      body: options.body,
-    })
+    return tauriFetch(url, options)
   }
 
-  // Browser: ensure cookies are sent with requests
+  // Browser: send cookies with every request by default
   return fetch(url, {
     ...options,
     credentials: options.credentials ?? 'include',
