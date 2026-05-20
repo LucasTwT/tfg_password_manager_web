@@ -2,6 +2,7 @@ import { useGlobalStore } from "@/core/store/useGlobalStore"
 import { KDF_PARAMS } from "@/core/services/crypto/constants/argon2idParams"
 import { API_URL } from "../constants"
 import { apiFetch } from "../httpClient"
+import { platformFetch } from "../adapters/platformFetch"
 import sodium from "libsodium-wrappers"
 
 // --- Public endpoints (no JWT required) ---
@@ -9,12 +10,11 @@ import sodium from "libsodium-wrappers"
 export async function authLoginStart(identifier: string) {
     try {
         const content = JSON.stringify({ identifier })
-        const response = await fetch(`${API_URL}/auth/login/start`, {
+        const response = await platformFetch(`${API_URL}/auth/login/start`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            credentials: "include",
             body: content,
         })
         if (!response.ok) {
@@ -33,12 +33,11 @@ export async function finishLogin(identifier: string, signature: string) {
             identifier: identifier,
             signature: signature,
         })
-        const response = await fetch(`${API_URL}/auth/login/finish`, {
+        const response = await platformFetch(`${API_URL}/auth/login/finish`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            credentials: "include",
             body: content,
         })
         if (!response.ok) {
@@ -76,12 +75,11 @@ export async function registerUser(
             default_settings: settings,
         })
 
-        const response = await fetch(`${API_URL}/auth/register/user`, {
+        const response = await platformFetch(`${API_URL}/auth/register/user`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            credentials: "include",
             body: content,
         })
         if (!response.ok) {
@@ -97,12 +95,11 @@ export async function registerUser(
 export async function requestSalt(identifier: string) {
     try {
         const content = JSON.stringify({ identifier })
-        const response = await fetch(`${API_URL}/auth/request_salt`, {
+        const response = await platformFetch(`${API_URL}/auth/request_salt`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            credentials: "include",
             body: content,
         })
         if (!response.ok) {
@@ -117,12 +114,11 @@ export async function requestSalt(identifier: string) {
 
 export async function logout() {
     try {
-        const response = await fetch(`${API_URL}/auth/logout`, {
+        const response = await platformFetch(`${API_URL}/auth/logout`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            credentials: "include",
         })
         return { response: await response.json(), status: response.ok }
     } catch (error) {

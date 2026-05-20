@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useGlobalStore } from "@/core/store/useGlobalStore"
 import { useFetchSettings } from "@/core/hooks/useFetchSettings"
 import { API_URL } from "@/core/services/api/constants"
+import { platformFetch } from "@/core/services/api/adapters/platformFetch"
 
 export function useAutoLogin() {
     const [checking, setChecking] = useState(true)
@@ -13,10 +14,9 @@ export function useAutoLogin() {
 
         async function tryRefresh() {
             try {
-                const response = await fetch(`${API_URL}/auth/refresh`, {
+                const response = await platformFetch(`${API_URL}/auth/refresh`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    credentials: "include",
                 })
 
                 if (!cancelled && response.ok) {

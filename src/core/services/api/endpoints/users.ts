@@ -9,7 +9,6 @@ export async function getSettings() {
             headers: {
                 "Content-Type": "application/json",
             },
-            credentials: "include",
         })
         if (!response.ok) {
             const errorData = await response.json()
@@ -28,7 +27,6 @@ export async function updateSettings(settings: UserSettings) {
             headers: {
                 "Content-Type": "application/json",
             },
-            credentials: "include",
             body: JSON.stringify({ settings }),
         })
         if (!response.ok) {
