@@ -20,13 +20,6 @@ export { useHome } from "./Home/useHome"
 export { useInit } from "./useInit"
 export { usePickFile } from "./useFiles"
 export { useAlert } from "./useAlert"
-export { useLoadBottomSheetContent } from "./useLoadBottomSheetContent"
-export { useLoadOverlaySheetContent } from "./useLoadOverlaySheetContent"
-export { useLoadPopover } from "./useLoadPopover"
-
-// Vault hooks
-export { useVaultOptions } from "./Vaults/useVaultOptions"
-export { useChangeVault } from "./Vaults/useChangeVault"
 
 // Types
 export type { MasterPassword } from "@/core/types/masterPassword"
