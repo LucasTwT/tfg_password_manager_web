@@ -41,6 +41,10 @@ export function SettingsModal() {
     persistSettings({ ...settings, lang })
   }
 
+  const handleClipboardCleaningChange = (value: number) => {
+    persistSettings({ ...settings, clipboard_cleaning: value })
+  }
+
   const handleLogout = async () => {
     await logout()
     clearKeys()
@@ -118,17 +122,25 @@ export function SettingsModal() {
             </div>
           </div>
 
-          {/* Security */}
+          {/* Clipboard */}
           <div className="space-y-3">
             <Label className="text-sm font-semibold text-[var(--foreground)]">
-              {t("app.settings.security")}
+              {t("app.settings.clipboard")}
             </Label>
-            <Button variant="outline" className="w-full justify-start" disabled>
-              {t("app.settings.changePassword")}
-            </Button>
-            <Button variant="outline" className="w-full justify-start" disabled>
-              {t("app.settings.exportVaults")}
-            </Button>
+            <div className="space-y-2">
+              <Label className="text-sm text-[var(--muted-foreground)]">
+                {t("app.settings.clipboardCleaning")}
+              </Label>
+              <select
+                className="w-full rounded-md border border-[var(--border)] bg-[var(--background)] p-2 text-sm"
+                value={settings.clipboard_cleaning}
+                onChange={(e) => handleClipboardCleaningChange(Number(e.target.value))}
+              >
+                <option value={15}>{t("app.settings.clipboard15s")}</option>
+                <option value={60}>{t("app.settings.clipboard1m")}</option>
+                <option value={120}>{t("app.settings.clipboard2m")}</option>
+              </select>
+            </div>
           </div>
 
           {/* Logout */}

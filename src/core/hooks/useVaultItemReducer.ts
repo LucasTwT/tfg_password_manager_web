@@ -35,6 +35,7 @@ type VaultItemAction =
   | { type: "SET_LOADING"; loading: boolean }
   | { type: "SET_FILES"; files: VaultFile[] }
   | { type: "APPEND_FILE"; file: VaultFile }
+  | { type: "REMOVE_FILE"; fileId: string }
   | { type: "SET_FILES_LOADING"; loading: boolean }
   | { type: "SET_CREATE_MODAL"; open: boolean }
   | { type: "RESET" }
@@ -73,6 +74,8 @@ function vaultItemReducer(state: VaultItemState, action: VaultItemAction): Vault
       return { ...state, files: action.files }
     case "APPEND_FILE":
       return { ...state, files: [...state.files, action.file] }
+    case "REMOVE_FILE":
+      return { ...state, files: state.files.filter((file) => file.id !== action.fileId) }
     case "SET_FILES_LOADING":
       return { ...state, loadingFiles: action.loading }
     case "SET_CREATE_MODAL":
@@ -120,10 +123,6 @@ export function useVaultItemReducer() {
   /** Set loaded files list */
   const setFiles = useCallback((files: VaultFile[] | ((prev: VaultFile[]) => VaultFile[])) => {
     if (typeof files === "function") {
-      // For functional updates, dispatch a special action
-      // We'll handle this in VaultItem by using state.files directly
-      // For now, this won't work with functional updates from the hook
-      // The VaultItem should use appendFile instead
     } else {
       dispatch({ type: "SET_FILES", files })
     }
@@ -132,6 +131,11 @@ export function useVaultItemReducer() {
   /** Append a file to the files list */
   const appendFile = useCallback((file: VaultFile) => {
     dispatch({ type: "APPEND_FILE", file })
+  }, [])
+
+  /** Remove a file from the files list */
+  const removeFile = useCallback((fileId: string) => {
+    dispatch({ type: "REMOVE_FILE", fileId })
   }, [])
 
   /** Set loading state for files */
@@ -159,6 +163,7 @@ export function useVaultItemReducer() {
     setLoading,
     setFiles,
     appendFile,
+    removeFile,
     setFilesLoading,
     setCreateModal,
     reset,

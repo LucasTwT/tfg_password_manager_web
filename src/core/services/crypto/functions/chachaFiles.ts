@@ -101,8 +101,8 @@ export function decryptChunkXChaCha(
     keyHex: string
 ): Uint8Array {
     const key = hexToUint8(keyHex)
-    const ciphertext = sodium.from_base64(cipherB64)
-    const nonce = sodium.from_base64(nonceB64)
+    const ciphertext = sodium.from_base64(cipherB64, sodium.base64_variants.ORIGINAL)
+    const nonce = sodium.from_base64(nonceB64, sodium.base64_variants.ORIGINAL)
 
     return sodium.crypto_aead_xchacha20poly1305_ietf_decrypt(
         null,

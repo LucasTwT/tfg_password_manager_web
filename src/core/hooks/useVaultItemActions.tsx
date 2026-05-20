@@ -19,6 +19,8 @@ interface UseVaultItemActionsOptions {
   setDeleteFlow: (open: boolean) => void
   setCreateModal: (open: boolean) => void
   updateLogin: (loginId: string, updates: Partial<Login>) => void
+  appendFile: (file: any) => void
+  removeFile: (fileId: string) => void
 }
 
 export function useVaultItemActions({
@@ -33,6 +35,8 @@ export function useVaultItemActions({
   setDeleteFlow,
   setCreateModal,
   updateLogin,
+  appendFile,
+  removeFile,
 }: UseVaultItemActionsOptions) {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
@@ -62,6 +66,32 @@ export function useVaultItemActions({
     window.addEventListener("login-modified", handleLoginModified)
     return () => window.removeEventListener("login-modified", handleLoginModified)
   }, [vault.id, updateLogin])
+
+  // Listen for file-uploaded events
+  useEffect(() => {
+    const handleFileUploaded = (event: Event) => {
+      const customEvent = event as CustomEvent<{ vaultId: string; file: any }>
+      if (customEvent.detail.vaultId === vault.id) {
+        console.log(`[VaultItem] File uploaded in vault ${vault.id}, appending file...`)
+        appendFile(customEvent.detail.file)
+      }
+    }
+    window.addEventListener("file-uploaded", handleFileUploaded)
+    return () => window.removeEventListener("file-uploaded", handleFileUploaded)
+  }, [vault.id, appendFile])
+
+  // Listen for file-deleted events
+  useEffect(() => {
+    const handleFileDeleted = (event: Event) => {
+      const customEvent = event as CustomEvent<{ vaultId: string; fileId: string }>
+      if (customEvent.detail.vaultId === vault.id) {
+        console.log(`[VaultItem] File deleted in vault ${vault.id}, removing file...`)
+        removeFile(customEvent.detail.fileId)
+      }
+    }
+    window.addEventListener("file-deleted", handleFileDeleted)
+    return () => window.removeEventListener("file-deleted", handleFileDeleted)
+  }, [vault.id, removeFile])
 
   const handleToggle = useCallback(() => {
     dispatch({ type: "TOGGLE_VAULT_EXPAND", vaultId: vault.id })

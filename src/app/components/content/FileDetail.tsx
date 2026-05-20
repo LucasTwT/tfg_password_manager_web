@@ -3,6 +3,7 @@ import { Download, Trash2, File, Clock, Loader2 } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/app/components/ui/card"
 import { Button } from "@/app/components/ui/button"
 import type { VaultFile } from "@/core/types/file"
+import { useEffect, useMemo, useState } from "react"
 import { useFileDownload } from "@/core/hooks/useFileDownload"
 import { useFileDeleteFlow } from "@/core/hooks/useFileDeleteFlow"
 import { DeleteConfirmDialog } from "@/app/components/ui/DeleteConfirmDialog"
@@ -21,7 +22,10 @@ function formatFileSize(bytes: number): string {
 
 export function FileDetail({ file }: FileDetailProps) {
   const { t } = useTranslation()
-  const { download, downloading, progress } = useFileDownload()
+  const { download, getBlob, downloading, progress } = useFileDownload()
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [previewType, setPreviewType] = useState<"image" | "pdf" | "text" | "unsupported" | null>(null)
+  const [previewText, setPreviewText] = useState<string | null>(null)
   const {
     deleteDialog, passwordDialog, deleting,
     handleDeleteConfirm, handleDeleteCancel,
@@ -38,6 +42,53 @@ export function FileDetail({ file }: FileDetailProps) {
     await download(file.id, keyStr)
   }
 
+  const handlePreview = async () => {
+    const keyHex = useGlobalStore.getState().cryptoContext?.vaultKey
+    if (!keyHex) {
+      console.error("[FileDetail] No vault key available")
+      return
+    }
+    const keyStr = Array.from(keyHex).map(b => b.toString(16).padStart(2, '0')).join('')
+    const result = await getBlob(file.id, keyStr)
+    if (!result) return
+
+    const { blob, mimeType } = result
+    const url = URL.createObjectURL(blob)
+    if (mimeType.startsWith("image/")) {
+      setPreviewType("image")
+      setPreviewUrl(url)
+    } else if (mimeType === "application/pdf") {
+      setPreviewType("pdf")
+      setPreviewUrl(url)
+    } else if (mimeType.startsWith("text/")) {
+      const text = await blob.text()
+      setPreviewType("text")
+      setPreviewText(text)
+      URL.revokeObjectURL(url)
+    } else {
+      setPreviewType("unsupported")
+      setPreviewUrl(null)
+      URL.revokeObjectURL(url)
+    }
+  }
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl)
+      }
+    }
+  }, [previewUrl])
+
+  useEffect(() => {
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl)
+    }
+    setPreviewUrl(null)
+    setPreviewType(null)
+    setPreviewText(null)
+  }, [file.id])
+
   return (
     <div className="flex-1 overflow-y-auto p-6">
       <Card className="max-w-2xl mx-auto">
@@ -47,6 +98,14 @@ export function FileDetail({ file }: FileDetailProps) {
             {file.fileName || t("files.detail.untitled", { defaultValue: "File" })}
           </CardTitle>
           <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handlePreview}
+              disabled={downloading}
+            >
+              {t("files.detail.preview", { defaultValue: "Preview" })}
+            </Button>
             <Button
               variant="outline"
               size="sm"
@@ -75,6 +134,29 @@ export function FileDetail({ file }: FileDetailProps) {
         </CardHeader>
 
         <CardContent className="space-y-4">
+          {previewType === "image" && previewUrl && (
+            <div className="rounded-md border border-[var(--border)] overflow-hidden">
+              <img src={previewUrl} alt={file.fileName} className="w-full h-auto" />
+            </div>
+          )}
+
+          {previewType === "pdf" && previewUrl && (
+            <div className="rounded-md border border-[var(--border)] overflow-hidden h-[500px]">
+              <iframe src={previewUrl} className="w-full h-full" title={file.fileName} />
+            </div>
+          )}
+
+          {previewType === "text" && previewText && (
+            <pre className="rounded-md border border-[var(--border)] p-3 text-xs whitespace-pre-wrap break-words max-h-[500px] overflow-auto">
+              {previewText}
+            </pre>
+          )}
+
+          {previewType === "unsupported" && (
+            <div className="rounded-md border border-[var(--border)] p-3 text-sm text-[var(--muted-foreground)]">
+              {t("files.detail.noPreview", { defaultValue: "No preview available for this file type." })}
+            </div>
+          )}
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
               <p className="text-[var(--muted-foreground)]">{t("files.detail.size", { defaultValue: "Size" })}</p>

@@ -5,6 +5,7 @@ import type { FileUploadProgress } from "@/core/types/file"
 
 interface UseFileDownloadReturn {
   download: (fileId: string, keyHex: string) => Promise<void>
+  getBlob: (fileId: string, keyHex: string) => Promise<{ blob: Blob; fileName: string; mimeType: string } | null>
   progress: FileUploadProgress
   downloading: boolean
   error: string | null
@@ -15,8 +16,8 @@ export function useFileDownload(): UseFileDownloadReturn {
   const [downloading, setDownloading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const download = useCallback(async (fileId: string, keyHex: string): Promise<void> => {
-    console.log("[useFileDownload] Starting download", { fileId })
+  const getBlob = useCallback(async (fileId: string, keyHex: string): Promise<{ blob: Blob; fileName: string; mimeType: string } | null> => {
+    console.log("[useFileDownload] Starting blob build", { fileId })
     setDownloading(true)
     setError(null)
     setProgress({ current: 0, total: 0, percent: 0 })
@@ -24,19 +25,17 @@ export function useFileDownload(): UseFileDownloadReturn {
     try {
       await ensureSodiumReady()
 
-      // Fetch file metadata
       const metaResult = await getFileMetadata(fileId)
       if (!metaResult.status || !metaResult.response) {
         const errMsg = metaResult.error || "Failed to get file metadata"
         console.error("[useFileDownload] Metadata failed", errMsg)
         setError(errMsg)
-        return
+        return null
       }
 
       const fileMeta = metaResult.response
       console.log("[useFileDownload] Got metadata", { chunkCount: fileMeta.chunk_count })
 
-      // Decrypt metadata to get filename
       const keyUint8 = hexToUint8(keyHex)
       let fileName = "download"
       let mimeType = "application/octet-stream"
@@ -55,20 +54,18 @@ export function useFileDownload(): UseFileDownloadReturn {
         console.warn("[useFileDownload] Failed to decrypt metadata, using defaults", metaErr)
       }
 
-      // Fetch chunks
       const chunksResult = await getFileChunks(fileId)
       if (!chunksResult.status || !chunksResult.response?.chunks) {
         const errMsg = chunksResult.error || "Failed to get file chunks"
         console.error("[useFileDownload] Chunks failed", errMsg)
         setError(errMsg)
-        return
+        return null
       }
 
       const chunks = chunksResult.response.chunks
       const totalChunks = chunks.length
       console.log(`[useFileDownload] Got ${totalChunks} chunks`)
 
-      // Decrypt chunks
       const parts: Uint8Array[] = []
       for (let i = 0; i < chunks.length; i++) {
         const chunk = chunks[i]
@@ -82,26 +79,32 @@ export function useFileDownload(): UseFileDownloadReturn {
         })
       }
 
-      // Create blob and trigger download
       const blob = new Blob(parts, { type: mimeType })
-      const url = URL.createObjectURL(blob)
-      const a = document.createElement("a")
-      a.href = url
-      a.download = fileName
-      document.body.appendChild(a)
-      a.click()
-      document.body.removeChild(a)
-      URL.revokeObjectURL(url)
-
-      console.log("[useFileDownload] Download complete!", { fileName })
+      return { blob, fileName, mimeType }
     } catch (err) {
       const errMsg = err instanceof Error ? err.message : "Download failed"
       console.error("[useFileDownload] Exception", err)
       setError(errMsg)
+      return null
     } finally {
       setDownloading(false)
     }
   }, [])
 
-  return { download, progress, downloading, error }
+  const download = useCallback(async (fileId: string, keyHex: string): Promise<void> => {
+    const result = await getBlob(fileId, keyHex)
+    if (!result) return
+
+    const { blob, fileName } = result
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = fileName
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }, [getBlob])
+
+  return { download, getBlob, progress, downloading, error }
 }

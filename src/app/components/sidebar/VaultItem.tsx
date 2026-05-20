@@ -13,6 +13,7 @@ import { useFileActions } from "@/core/hooks/useFileActions"
 import { useVaultLogins } from "@/core/hooks/useVaultLogins"
 import { useVaultFiles } from "@/core/hooks/useVaultFiles"
 import { useFileUpload } from "@/core/hooks/useFileUpload"
+import { UploadProgressModal } from "@/app/components/ui/UploadProgressModal"
 import { useCryptoGuard } from "@/core/hooks/useCryptoGuard.tsx"
 import { useVaultItemActions } from "@/core/hooks/useVaultItemActions.tsx"
 import { LoginItem } from "./LoginItem"
@@ -33,9 +34,9 @@ export function VaultItem({ vault }: VaultItemProps) {
   const { loadLogins, createLogin } = useLoginActions()
   const { loadFiles } = useFileActions()
   const { ready: cryptoReady, requestUnlock, PasswordDialog } = useCryptoGuard()
-  const { upload: uploadFile, uploading } = useFileUpload()
+  const { upload: uploadFile, uploading, progress, currentFileName } = useFileUpload()
   const { pickFile } = usePickFile()
-  const { state, setContextMenu, setEditModal, setDeleteFlow, setLogins, setFiles, appendFile, updateLogin, setLoading, setFilesLoading, setCreateModal } = useVaultItemReducer()
+  const { state, setContextMenu, setEditModal, setDeleteFlow, setLogins, setFiles, appendFile, removeFile, updateLogin, setLoading, setFilesLoading, setCreateModal } = useVaultItemReducer()
   const { reload: reloadLogins } = useVaultLogins({ enabled: isExpanded, vaultId: vault.id, loadLogins, onLoaded: setLogins, onLoadingChange: setLoading })
   const { reload: reloadFiles } = useVaultFiles({ enabled: isExpanded, vaultId: vault.id, loadFiles, onLoaded: setFiles, onLoadingChange: setFilesLoading })
 
@@ -45,7 +46,7 @@ export function VaultItem({ vault }: VaultItemProps) {
   } = useVaultItemActions({
     vault, cryptoReady, requestUnlock, modifyVault, createLogin,
     reloadLogins, setContextMenu, setEditModal, setDeleteFlow,
-    setCreateModal, updateLogin,
+    setCreateModal, updateLogin, appendFile, removeFile,
   })
 
   const handleUploadFile = async () => {
@@ -62,7 +63,7 @@ export function VaultItem({ vault }: VaultItemProps) {
     for (const webFile of result.selectedUris) {
       const newFile = await uploadFile(webFile, vault.id, keyStr)
       if (newFile) {
-        appendFile(newFile)
+        window.dispatchEvent(new CustomEvent("file-uploaded", { detail: { vaultId: vault.id, file: newFile } }))
       }
     }
   }
@@ -106,6 +107,12 @@ export function VaultItem({ vault }: VaultItemProps) {
       {state.createModal && (<LoginFormModal mode="create" onSave={handleCreateLogin} onClose={() => setCreateModal(false)} />)}
       {state.deleteFlow && (<VaultDeleteFlow vaultId={vault.id} onDelete={handleDeleteVault} onComplete={() => setDeleteFlow(false)} />)}
       {PasswordDialog}
+      <UploadProgressModal
+        open={uploading}
+        fileName={currentFileName}
+        percent={progress.percent}
+        onClose={() => {}}
+      />
     </>
   )
 }

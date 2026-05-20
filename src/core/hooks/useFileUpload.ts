@@ -10,18 +10,21 @@ interface UseFileUploadReturn {
   progress: FileUploadProgress
   uploading: boolean
   error: string | null
+  currentFileName: string | null
 }
 
 export function useFileUpload(): UseFileUploadReturn {
   const [progress, setProgress] = useState<FileUploadProgress>({ current: 0, total: 0, percent: 0 })
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [currentFileName, setCurrentFileName] = useState<string | null>(null)
 
   const upload = useCallback(async (file: File, vaultId: string, keyHex: string): Promise<VaultFile | null> => {
     console.log("[useFileUpload] Starting upload", { fileName: file.name, size: file.size, vaultId })
     setUploading(true)
     setError(null)
     setProgress({ current: 0, total: 0, percent: 0 })
+    setCurrentFileName(file.name)
 
     try {
       await ensureSodiumReady()
@@ -60,8 +63,8 @@ export function useFileUpload(): UseFileUploadReturn {
           seq: chunk.index,
           offset: chunk.offset,
           length: CHUNK_SIZE,
-          nonce: sodium.to_base64(chunk.nonce),
-          ciphertext: sodium.to_base64(chunk.ciphertext),
+          nonce: sodium.to_base64(chunk.nonce, sodium.base64_variants.ORIGINAL),
+          ciphertext: sodium.to_base64(chunk.ciphertext, sodium.base64_variants.ORIGINAL),
         }
 
         const chunkResult = await uploadFileChunk(uploadId, sodiumChunk)
@@ -113,8 +116,9 @@ export function useFileUpload(): UseFileUploadReturn {
       return null
     } finally {
       setUploading(false)
+      setCurrentFileName(null)
     }
   }, [])
 
-  return { upload, progress, uploading, error }
+  return { upload, progress, uploading, error, currentFileName }
 }
